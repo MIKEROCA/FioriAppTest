@@ -69,89 +69,26 @@ sap.ui.define([
             },
 
             showOrders: function (oEvent) {
-                let ordersTable = this.getView().byId("ordersTable");
-                ordersTable.destroyItems();
 
-                let itemPressed = oEvent.getSource();
-                let oContext = itemPressed.getBindingContext("jsonEmployees");
+                //get selected controller
+                let iconPressed = oEvent.getSource();
 
-                let objectContext = oContext.getObject();
-                let orders = objectContext.Orders;
+                //Context from the model
+                let oContext = iconPressed.getBindingContext("jsonEmployees");
 
-                let ordersItems = [];
-
-                for (var i in orders) {
-                    ordersItems.push(new sap.m.ColumnListItem({
-                        cells: [
-                            new sap.m.Label({ text: orders[i].OrderID }),
-                            new sap.m.Label({ text: orders[i].Freight }),
-                            new sap.m.Label({ text: orders[i].ShipAddress })
-                        ]
-                    }));
+                if (!this._oDialogOrders) {
+                    this._oDialogOrders = sap.ui.xmlfragment("logaligroup.fiori.fragment.DialogOrders", this);
+                    this.getView().addDependent(this._oDialogOrders);
                 }
 
-                let newTable = new sap.m.Table({
-                    width: "auto",
-                    columns: [
-                        new sap.m.Column({ header: new sap.m.Label({ text: "{i18n>orderID}" }) }),
-                        new sap.m.Column({ header: new sap.m.Label({ text: "{i18n>freight}" }) }),
-                        new sap.m.Column({ header: new sap.m.Label({ text: "{i18n>shipAddress}" }) })
-                    ],
-                    items: ordersItems
-                }).addStyleClass("sapUiSmallMargin");
+                //Dialog Binding to the Context to have access to the data of selected item
+                this._oDialogOrders.bindElement("jsonEmployees>" + oContext.getPath());
+                this._oDialogOrders.open();
 
-                ordersTable.addItem(newTable);
+            },
 
-                //otra alternativa para crear tabla dinamica 
-                let newTableJSON = new sap.m.Table();
-                newTableJSON.setWidth("auto");
-                newTableJSON.addStyleClass("sapUiSmallMargin");
-
-
-                let columnOrderID = new sap.m.Column();
-                let labelOrderID = new sap.m.Label();
-                labelOrderID.bindProperty("text", "i18n>orderID");
-                columnOrderID.setHeader(labelOrderID);
-                newTableJSON.addColumn(columnOrderID);
-
-                let columnFreight = new sap.m.Column();
-                let labelFreight = new sap.m.Label();
-                labelFreight.bindProperty("text", "i18n>freight");
-                columnFreight.setHeader(labelFreight);
-                newTableJSON.addColumn(columnFreight);
-                
-                let columnShipAddress = new sap.m.Column();
-                let labelShipAddress = new sap.m.Label();
-                labelShipAddress.bindProperty("text", "i18n>shipAddress");
-                columnShipAddress.setHeader(labelShipAddress);
-                newTableJSON.addColumn(columnShipAddress);  
-                
-                let columnListItem = new sap.m.ColumnListItem();
-
-                let cellOrderID = new sap.m.Label();
-                cellOrderID.bindProperty("text", "jsonEmployees>OrderID");
-                columnListItem.addCell(cellOrderID);
-
-                let cellFreight = new sap.m.Label();
-                cellFreight.bindProperty("text", "jsonEmployees>Freight");
-                columnListItem.addCell(cellFreight);
-
-                let cellShipAddress = new sap.m.Label();
-                cellShipAddress.bindProperty("text", "jsonEmployees>ShipAddress");                
-                columnListItem.addCell(cellShipAddress);
-
-                let oBindingInfo = {
-                    model: "jsonEmployees",
-                    path: "Orders",
-                    template: columnListItem
-                };
-
-                newTableJSON.bindAggregation("items", oBindingInfo);
-                newTableJSON.bindElement("jsonEmployees>" + oContext.getPath());
-
-                ordersTable.addItem(newTableJSON);
-
-
+            onCloseOrders: function () {
+                this._oDialogOrders.close();
             },
 
             onShowCity: function () {
