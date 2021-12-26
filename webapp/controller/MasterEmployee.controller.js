@@ -13,28 +13,9 @@ sap.ui.define([
     function (Controller, JSONModel, Filter, FilterOperator) {
         "use strict";
 
-        return Controller.extend("logaligroup.fiori.controller.MainView", {
+        return Controller.extend("logaligroup.fiori.controller.MasterEmployee", {
             onInit: function () {
-
-                let oView = this.getView();
-
-                let oJSONModelEmpl = new JSONModel();
-                oJSONModelEmpl.loadData("../localService/mockdata/Employees.json", false);
-                oView.setModel(oJSONModelEmpl, "jsonEmployees");
-
-                let oJSONModelCountries = new JSONModel();
-                oJSONModelCountries.loadData("../localService/mockdata/Countries.json", false);
-                oView.setModel(oJSONModelCountries, "jsonCountries");
-
-                let oJSONModelConfig = new JSONModel({
-                    visibleID: true,
-                    visibleName: true,
-                    visibleCountry: true,
-                    visibleCity: false,
-                    visibleBtnShowCity: true,
-                    visibleBtnHideCity: false,
-                });
-                oView.setModel(oJSONModelConfig, "jsonModelConfig");
+               this._bus = sap.ui.getCore().getEventBus();
             },
 
             onFilter: function () {
@@ -119,5 +100,10 @@ sap.ui.define([
                     this.getView().byId("slCountry").setVisible(false);
                 }
             },
+
+            showEmployee: function (oEvent) {
+               let path = oEvent.getSource().getBindingContext("jsonEmployees").getPath();
+               this._bus.publish("flexible", "showEmployee", path)
+            }
         });
     });
