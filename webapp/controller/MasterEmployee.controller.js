@@ -55,7 +55,7 @@ sap.ui.define([
                 let iconPressed = oEvent.getSource();
 
                 //Context from the model
-                let oContext = iconPressed.getBindingContext("jsonEmployees");
+                let oContext = iconPressed.getBindingContext("odataNorthwind");
 
                 if (!this._oDialogOrders) {
                     this._oDialogOrders = sap.ui.xmlfragment("logaligroup.fiori.fragment.DialogOrders", this);
@@ -63,7 +63,7 @@ sap.ui.define([
                 }
 
                 //Dialog Binding to the Context to have access to the data of selected item
-                this._oDialogOrders.bindElement("jsonEmployees>" + oContext.getPath());
+                this._oDialogOrders.bindElement("odataNorthwind>" + oContext.getPath());
                 this._oDialogOrders.open();
 
             },
@@ -102,7 +102,7 @@ sap.ui.define([
             },
 
             showEmployee: function (oEvent) {
-               let path = oEvent.getSource().getBindingContext("jsonEmployees").getPath();
+               let path = oEvent.getSource().getBindingContext("odataNorthwind").getPath();
                this._bus.publish("flexible", "showEmployee", path)
             }
         });
