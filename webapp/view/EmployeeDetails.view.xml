@@ -62,5 +62,9 @@
             </headerToolbar>
             <Panel id="tableIncidence" class="sapUiNoContentPadding" backgroundDesign="Transparent"></Panel>
         </Panel>
+
+        <Panel class="sapUiSizeCompact" backgroundDesign="Transparent" headerText="{orders}">
+            <core:Fragment fragmentName="logaligroup.fiori.fragment.TableOrders" type="XML"/> 
+        </Panel>
     </Page>
 </mvc:View>

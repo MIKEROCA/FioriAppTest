@@ -47,6 +47,12 @@
     },
     "sap.ui5": {
         "flexEnabled": true,
+        "rootView": {
+            "viewName": "logaligroup.fiori.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "app"
+        },        
         "dependencies": {
             "minUI5Version": "1.97.0",
             "libs": {
@@ -108,11 +114,18 @@
             "routes": [
                 {
                     "name": "RouteMain",
-                    "pattern": "RouteMain",
+                    "pattern": "",
                     "target": [
                         "TargetMain"
                     ]
-                }
+                },
+                {
+                    "name": "RouteOrderDetails",
+                    "pattern": "OrderDetails/{OrderID}",
+                    "target": [
+                        "TargetOrderDetails"
+                    ]
+                }                
             ],
             "targets": {
                 "TargetMain": {
@@ -122,20 +135,11 @@
                     "viewId": "Main",
                     "viewName": "Main"
                 },
-                "TargetMasterEmployee": {
+                "TargetOrderDetails": {
                     "viewType": "XML",
-                    "transition": "slide",
-                    "clearControlAggregation": false,
-                    "viewId": "MasterEmployee",
-                    "viewName": "MasterEmployee"
+                    "viewName": "OrderDetails"
                 }
             }
-        },
-        "rootView": {
-            "viewName": "logaligroup.fiori.view.Main",
-            "type": "XML",
-            "async": true,
-            "id": "Main"
         }
     }
 }

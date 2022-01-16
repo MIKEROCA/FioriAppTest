@@ -1,5 +1,6 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller",
+    //"sap/ui/core/mvc/Controller",
+    "logaligroup/fiori/controller/Base.controller",
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator"
@@ -10,12 +11,12 @@ sap.ui.define([
      * @param {typeof sap.ui.model.Filter} Filter
      * @param {typeof sap.ui.model.FilterOperator} FilterOperator
 	 */
-    function (Controller, JSONModel, Filter, FilterOperator) {
+    function (Base, JSONModel, Filter, FilterOperator) {
         "use strict";
 
-        return Controller.extend("logaligroup.fiori.controller.MasterEmployee", {
+        return Base.extend("logaligroup.fiori.controller.MasterEmployee", {
             onInit: function () {
-               this._bus = sap.ui.getCore().getEventBus();
+                this._bus = sap.ui.getCore().getEventBus();
             },
 
             onFilter: function () {
@@ -86,24 +87,32 @@ sap.ui.define([
                 oJSONModelConfig.setProperty("/visibleBtnHideCity", false);
             },
 
-            onValidate: function () {
-                let inputEmployee = this.getView().byId("inputEmployee");
-                let valueEmployee = inputEmployee.getValue();
-
-                if (valueEmployee.length === 6) {
-                    //inputEmployee.setDescription("OK");
-                    this.getView().byId("labelCountry").setVisible(true);
-                    this.getView().byId("slCountry").setVisible(true);
-                } else {
-                    //inputEmployee.setDescription("Not OK");
-                    this.getView().byId("labelCountry").setVisible(false);
-                    this.getView().byId("slCountry").setVisible(false);
-                }
-            },
+            //onValidate: function () {
+            //    let inputEmployee = this.getView().byId("inputEmployee");
+            //    let valueEmployee = inputEmployee.getValue();
+            //
+            //    if (valueEmployee.length === 6) {
+            //        //inputEmployee.setDescription("OK");
+            //        this.getView().byId("labelCountry").setVisible(true);
+            //        this.getView().byId("slCountry").setVisible(true);
+            //    } else {
+            //        //inputEmployee.setDescription("Not OK");
+            //        this.getView().byId("labelCountry").setVisible(false);
+            //        this.getView().byId("slCountry").setVisible(false);
+            //    }
+            //},
 
             showEmployee: function (oEvent) {
-               let path = oEvent.getSource().getBindingContext("odataNorthwind").getPath();
-               this._bus.publish("flexible", "showEmployee", path)
-            }
+                let path = oEvent.getSource().getBindingContext("odataNorthwind").getPath();
+                this._bus.publish("flexible", "showEmployee", path)
+            },
+
+            //toOrderDetails: function (oEvent) {
+            //    let orderID = oEvent.getSource().getBindingContext("odataNorthwind").getObject().OrderID;
+            //    let oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            //    oRouter.navTo("RouteOrderDetails", {
+            //        OrderID: orderID
+            //    });
+            //}
         });
     });

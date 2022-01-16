@@ -13,7 +13,7 @@
       "runtimeExecutable": "npx",
       "args": [
         "--open",
-        "test/flpSandbox.html#logaligroupfiori-display"
+        "index.html"
       ],
       "windows": {
         "runtimeExecutable": "npx.cmd"
